@@ -25,5 +25,6 @@ HFFDC.exe SourceFilePath BlockSizeInBytes
 ```
 
 Note:
+CLI will most likely change because it isn't intutive at all.
 Because of lazy coding - Make sure the target file exists already and has exactly the same size as the source file.
 Why? Because I just needed backups of my fixed size container files. Should be improved. Placeholder functions already implemented.
