@@ -6,6 +6,7 @@ A program which copies huge f\*ucking files without consuming the whole RAM. It 
 Designed to improve the experience of regular backups. After writing a backup the program always assumes that the TargetFile matches its checksum file. Therefore stored backups must not be modified. SourceFile checksums are always being recomputet. Further improvments are planed but not implemented yet. Usage ist currently pretty ugly.
 
 Required RAM for Copy operation: 2 times the specified BlockSizeInBytes.
+
 Required RAM for checksum operation: Specified BlockSizeInBytes.
 
 How big should a block be?
