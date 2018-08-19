@@ -1,3 +1,5 @@
+/* Copyright (c) 2018 Cloudnaut */
+
 #include <string>
 #include <iostream>
 #include <thread>
@@ -10,6 +12,8 @@
 #include "md5.h"
 using namespace std;
 
+void PrintHelp();
+bool IsString(char a[], const char b[]);
 long long GetFileSize(int &fileHandle);
 void ExpandFile(int *fileHandle, long long size);
 void ShrinkFile(int *fileHandle, long long size);
@@ -21,13 +25,16 @@ void PrintProgress(long long *currentBlock, long long blockCount);
 
 int main(int argc, char *argv[])
 {
-	if (argc != 3 && argc != 4 && argc != 5)
-		exit(0xDEAD);
-
-	if(argc == 3) //Checksum generation
+	if (argc < 2) //No parameters
 	{
-		char *fromFilePath = argv[1];
-		unsigned int blockSize = atoi(argv[2]);
+		PrintHelp();
+		return EXIT_SUCCESS;
+	}
+
+	if(IsString(argv[1], "-gc") || IsString(argv[1], "--generate-checksum")) //Generate Checksum
+	{
+		char *fromFilePath = argv[2];
+		unsigned int blockSize = atoi(argv[3]);
 
 		int fromFileHandle = 0;
 		_sopen_s(&fromFileHandle, fromFilePath, _O_RDONLY | _O_BINARY, _SH_DENYNO, 0);
@@ -43,12 +50,11 @@ int main(int argc, char *argv[])
 		checksumFile.close();
 		_close(fromFileHandle);
 	}
-
-	if(argc == 4) //Copy
+	else if(IsString(argv[1], "-compcpy") || IsString(argv[1], "--compare-and-copy")) //Compare and copy
 	{
-		char *fromFilePath = argv[1];
-		char *toFilePath = argv[2];
-		unsigned int blockSize = atoi(argv[3]);
+		char *fromFilePath = argv[2];
+		char *toFilePath = argv[3];
+		unsigned int blockSize = atoi(argv[4]);
 
 		int fromFileHandle = 0;
 		int toFileHandle = 0;
@@ -72,11 +78,10 @@ int main(int argc, char *argv[])
 		_close(fromFileHandle);
 		_close(toFileHandle);
 	}
-
-	if(argc == 5) //Copy with checksum files
+	else if(IsString(argv[1], "-chksmcpy") || IsString(argv[1], "--checksum-copy")) //Copy with checksum files
 	{
-		char *fromFilePath = argv[1];
-		char *toFilePath = argv[2];
+		char *fromFilePath = argv[2];
+		char *toFilePath = argv[3];
 
 		char fromChecksumFilePath[_MAX_PATH];
 		strcpy_s(fromChecksumFilePath, fromFilePath);
@@ -111,13 +116,39 @@ int main(int argc, char *argv[])
 		fromChecksumFile.close();
 		toChecksumFile.close();
 
-
-
 		_close(fromFileHandle);
 		_close(toFileHandle);
 	}
+	else PrintHelp();
 
 	return EXIT_SUCCESS;
+}
+
+void PrintHelp()
+{
+	cout << "Copyright (c) 2018 Cloudnaut" << endl;
+	cout << "HFFDC is a program designed to copy huge files efficiently" << endl << endl;
+	cout << "Usage: " << endl;
+	cout << "HFFDC.exe OPTION [PARAMETERS]" << endl << endl;
+	
+	cout << "Options:" << endl << endl;
+	
+	cout << "-gc, --generate-checksum" << endl;
+	cout << '\t' << "[PARAMETERS: filePath blockSize]" << endl;
+	cout << '\t' << "Generates a checksum file for the specified file" << endl << endl;
+	
+	cout << "-compcpy, --compare-and-copy" << endl;
+	cout << '\t' << "[PARAMETERS: sourceFilePath targetFilePath blockSize]" << endl;
+	cout << '\t' << "Reads each block of the source and the targetfile, only differing blocks will be copied to destination" << endl << endl;
+
+	cout << "-chksmcpy, --checksum-copy" << endl;
+	cout << '\t' << "[PARAMETERS: sourceFilePath targetFilePath]" << endl;
+	cout << '\t' << "Reads the checksum files for each block, only blocks with differing checksums will be copied to destination" << endl << endl;
+}
+
+bool IsString(char a[], const char b[])
+{
+	return memcmp(a, b, strlen(a)) == 0;
 }
 
 long long GetFileSize(int &fileHandle)
