@@ -35,3 +35,12 @@ Options:
 Note:
 Because of lazy coding - Make sure the target file exists already and has exactly the same size as the source file.
 Why? Because I just needed backups of my fixed size container files. Should be improved. Placeholder functions already implemented.
+
+```
+Example: (Sync changes of a fixed size image to the backup on your USB drive)
+
+HFFDC.exe -gc big.img 20971520 //Create checksum file for your big image file with blocksize 20MB
+HFFDC.exe -chksmcpy big.img "Z:\Backups\big.img" //Copy only differences. Assuming the target file has been checksumed once
+//Now copy "big.img.hffdc" next to "Z:\Backups\big.img" since they should be equal
+
+```
