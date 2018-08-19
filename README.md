@@ -1,9 +1,9 @@
 # HFFDC
 Huge f\*cking file delta copy
 
-A program which copies huge f\*ucking files without consuming the whole RAM. It supports delta copy of really huge files by utilizing checksums. 
+A program which copies huge f\*ucking files without consuming the whole RAM over a really limited connection. It supports delta copy of really huge files by utilizing checksums (Tested with files >2 TB). 
 
-Designed to improve the experience of regular backups. After writing a backup the program always assumes that the TargetFile matches its checksum file. Therefore stored backups must not be modified. SourceFile checksums are always being recomputet. Further improvments are planed but not implemented yet. Usage ist currently pretty ugly.
+Designed to improve the experience of regular backups. Further improvments are planed but not implemented yet.
 
 Required RAM for Copy operation: 2 times the specified BlockSizeInBytes.
 
@@ -14,19 +14,24 @@ Preferably the transfer speed of the connection.
 
 ```
 Usage:
+HFFDC.exe OPTION [PARAMETERS]
 
-Standard Copy
-HFFDC.exe SourceFilePath TargetFilePath BlockSizeInBytes
+Options:
+-gc, --generate-checksum
+  [PARAMETERS: filePath blockSizeInBytes]
+  Generates a checksum file for the specified file
+  
+-compcpy, --compare-and-copy
+  [PARAMETERS: sourceFilePath targetFilePath blockSizeInBytes]
+  Reads each block of the source and the targetfile, only differing blocks will be copied to destination
 
-Checksum Copy (Requires Source and Target files to be checksumed with same blocksize)
-HFFDC.exe SourceFilePath TargetFilePath 123 123
-
-Generate Checksum File
-HFFDC.exe SourceFilePath BlockSizeInBytes
+-chksmcpy, --checksum-copy
+  [PARAMETERS: sourceFilePath targetFilePath]
+  Reads the checksum files of each block, only blocks with differing checksums will be copied to destination
+  Note: Requires source and target files to be checksumed with same blocksize
 
 ```
 
 Note:
-CLI will most likely change because it isn't intutive at all.
 Because of lazy coding - Make sure the target file exists already and has exactly the same size as the source file.
 Why? Because I just needed backups of my fixed size container files. Should be improved. Placeholder functions already implemented.
