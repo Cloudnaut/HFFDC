@@ -19,7 +19,7 @@ Options:
   [PARAMETERS: filePath blockSizeInBytes]
   Generates a checksum file for the specified file
   
--compcpy, --compare-and-copy
+-cmpcpy, --compare-and-copy
   [PARAMETERS: sourceFilePath targetFilePath blockSizeInBytes]
   Reads each block of the source and the targetfile, only differing blocks will be copied to destination
 
@@ -38,16 +38,12 @@ Required RAM for Copy operation: 2 times the specified BlockSizeInBytes.
 
 Required RAM for checksum operation: Specified BlockSizeInBytes.
 
-Because of lazy coding - Make sure the target file exists already and has exactly the same size as the source file.
-Why? Because I just needed backups of my fixed size container files. Should be improved. Placeholder functions already implemented.
-
 
 ## Examples
 ```
-Example 1: (Sync changes of a fixed size image to the backup on your USB drive)
+Example 1: (Sync changes of an image to the backup on your USB drive)
 
 HFFDC.exe -gc big.img 20971520 //Create checksum file for your big image file with blocksize 20MB
 HFFDC.exe -chksmcpy big.img "Z:\Backups\big.img" //Copy only differences. Assuming the target file has been checksumed once
-//Now copy "big.img.hffdc" next to "Z:\Backups\big.img" since they should be equal
 
 ```
