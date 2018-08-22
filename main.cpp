@@ -143,8 +143,8 @@ int main(int argc, char *argv[])
 		_close(fromFileHandle);
 		_close(toFileHandle);
 
-		char *arguments[] = {"HFFDC.exe", "-cmpcpy", fromChecksumFilePath, toChecksumFilePath, "1048576" }; //Copy really hacky the checksum file
-		main(5, arguments);
+		const char *arguments[] = {(const char*) "HFFDC.exe", (const char*) "-cmpcpy", fromChecksumFilePath, toChecksumFilePath, (const char*) "1048576" }; //Copy really hacky the checksum file
+		main(5, (char **) arguments);
 	}
 	else PrintHelp();
 
@@ -192,13 +192,13 @@ long long GetFileSize(int &fileHandle)
 
 void ExpandFile(int *fileHandle, long long size)
 {
-	_chsize(*fileHandle, (long) size);
+	_chsize_s(*fileHandle, size);
 }
 
 
 void ShrinkFile(int *fileHandle, long long size)
 {
-	_chsize(*fileHandle, (long) size);
+	_chsize_s(*fileHandle, size);
 }
 
 
