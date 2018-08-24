@@ -46,4 +46,13 @@ Example 1: (Sync changes of an image to the backup on your USB drive)
 HFFDC.exe -gc big.img 20971520 //Create checksum file for your big image file with blocksize 20MB
 HFFDC.exe -chksmcpy big.img "Z:\Backups\big.img" //Copy only differences. Assuming the target file has been checksumed once
 
+Example 2 [Windows Only]: (Sync a directory to a network location) [Script usage might change]
+
+1. Download HFFDC-Backup.ps1
+2. Edit the "Adjust Settings here" section
+3. Execute the script
+
 ```
+
+## Disclaimer
+This program comes with absolutely no warranty of any kind
