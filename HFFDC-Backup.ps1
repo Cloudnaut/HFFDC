@@ -1,7 +1,10 @@
-$HFFDC = "D:\Path\To\HFFDC.exe";
-$blockSizeInBytes = "20971520";
-$sourceDirectory = "D:\Copy\From";
-$targetDirectory = "D:\Copy\To";
+#Adjust Settings here
+$HFFDC = "C:\Path\To\HFFDC.exe";
+$blockSizeInBytes = "5242880";
+$sourceDirectory = "C:\Copy\From";
+$targetDirectory = "P:\Copy\To";
+
+#Requires at least powershell 3.0
 foreach($file in Get-ChildItem -Path $sourceDirectory -Exclude *.hffdc -Recurse -File)
 {
     $sourceFile = $file.FullName;
@@ -41,9 +44,9 @@ foreach($file in Get-ChildItem -Path $sourceDirectory -Exclude *.hffdc -Recurse 
         Write-Host "Copy source file to destination...";
         $targetFileDirectory = Split-Path -Path $targetFile;
         New-Item -ItemType Directory -Force -Path $targetFileDirectory | Out-Null;
-        & $HFFDC --compare-and-copy $sourceFile $targetFile $blockSizeInBytes;
+        Copy-Item -Path $sourceFile -Destination $targetFile
 
         Write-Host "Copy source file checksum file to target destination...";
-        & $HFFDC --compare-and-copy "$sourceFile.hffdc" "$targetFile.hffdc" $blockSizeInBytes;
+        Copy-Item -Path "$sourceFile.hffdc" -Destination "$targetFile.hffdc";
     }
 }
