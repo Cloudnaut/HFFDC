@@ -4,7 +4,7 @@ $blockSizeInBytes = "5242880";
 $sourceDirectory = "C:\Copy\From";
 $targetDirectory = "P:\Copy\To";
 
-#Requires at least powershell 3.0
+#Needs at least powershell 3.0
 foreach($file in Get-ChildItem -Path $sourceDirectory -Exclude *.hffdc -Recurse -File)
 {
     $sourceFile = $file.FullName;
@@ -13,7 +13,7 @@ foreach($file in Get-ChildItem -Path $sourceDirectory -Exclude *.hffdc -Recurse 
     if(Test-Path $targetFile)
     {
         Write-Host "Backup of $file already existing";
-        
+
         if(!(Test-Path "$targetFile.hffdc"))
         {
             Write-Host "No checksum file for target file existing, generating...";
