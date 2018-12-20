@@ -4,7 +4,12 @@ $blockSizeInBytes = "5242880";
 $sourceDirectory = "C:\Copy\From";
 $targetDirectory = "P:\Copy\To";
 
-#Needs at least powershell 3.0
+if($PSVersionTable.PSVersion.Major -lt 3)
+{
+    Write-Host "Needs at least powershell 3.0"
+    exit
+}
+
 foreach($file in Get-ChildItem -Path $sourceDirectory -Exclude *.hffdc -Recurse -File)
 {
     $sourceFile = $file.FullName;
