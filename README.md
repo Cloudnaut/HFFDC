@@ -3,6 +3,8 @@ Huge f\*cking file delta copy - Backup Tool
 
 A program which copies really big files without consuming the whole RAM over a really slow connection. It supports delta (also called differential) copy of really huge files by utilizing checksums (Tested with files > 2 TB) to update your backups. 
 
+See also my other tooling to verify backup integrity: https://github.com/Cloudnaut/FileGuard
+
 ### Isn't rsync already doing this job?
 For differential backups to an external drive, rsync always needs to read the whole file from the drive to calculate the checksums for the blocks. This isn't practical at all. Files on an backup drive normally don't change out of nowhere. That's why it's enough to store the checksums alongside the actual file. That's how HFFDC works.
 
